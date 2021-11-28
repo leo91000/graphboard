@@ -1,0 +1,48 @@
+services:
+  api:
+    container_name: graphboard_api
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: server
+      args:
+        BUILD: development
+    command: cargo watch -x run
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      PG_USER: graphboard
+      PG_PASSWORD: graphboard
+      PG_HOST: graphboard_db
+      PG_PORT: 5432
+      PG_DBNAME: graphboard
+      PG_POOL_MAX_SIZE: 16
+      RUST_BACKTRACE: 1
+      RUST_LOG: info
+    volumes:
+      - ./server/src:/app/src
+      - ./server/Cargo.toml:/app/Cargo.toml
+
+  db:
+    container_name: graphboard_db
+    image: postgres:14.1-alpine3.15
+    environment:
+      POSTGRES_USER: graphboard
+      POSTGRES_PASSWORD: graphboard
+      POSTGRES_DB: graphboard
+    volumes:
+      - ./data:/var/lib/postgresql/data/
+      - ./docker/scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:cached
+      - ./docker/migrations:/migrations:cached
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
