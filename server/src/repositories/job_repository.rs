@@ -151,3 +151,32 @@ pub async fn add_job(client: &Client, data: AddJobData) -> Result<Job, Repositor
 
     Ok(job)
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CompleteJobsResult {
+    completed_jobs: Vec<Job>,
+}
+
+impl TryFrom<Row> for CompleteJobsResult {
+    type Error = RepositoryError;
+
+    fn try_from(row: Row) -> Result<Self, Self::Error> {
+        Ok(CompleteJobsResult {
+            completed_jobs: serde_json::from_str(row.try_get("completed_jobs")?)?,
+        })
+    }
+}
+
+pub async fn complete_jobs(
+    client: &Client,
+    job_ids: &[i64],
+) -> Result<CompleteJobsResult, RepositoryError> {
+    let query = format!(
+        "select json_agg(cj)::text completed_jobs from {}.complete_jobs($1::bigint[]) cj",
+        *GRAPHILE_WORKER_SCHEMA
+    );
+
+    let results = client.query_one(&query, &[&job_ids]).await?.try_into()?;
+    Ok(results)
+}

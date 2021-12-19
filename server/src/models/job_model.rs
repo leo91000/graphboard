@@ -24,7 +24,7 @@ pub struct Job {
 }
 
 #[derive(Deserialize, Serialize, Clone)]
-#[serde(rename_all(serialize = "camelCase"))]
+#[serde(rename_all = "camelCase")]
 pub struct AddJobData {
     pub task_identifier: String,
     pub payload: Option<Value>,

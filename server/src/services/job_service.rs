@@ -1,14 +1,16 @@
 use crate::errors::HttpError;
 use crate::models::AddJobData;
-use crate::repositories::{add_job, find_jobs};
+use crate::repositories::{add_job, complete_jobs, find_jobs};
 use actix_web::web::{scope, Data, HttpRequest, Json};
 use actix_web::{get, post, HttpResponse, Scope};
 use deadpool_postgres::Pool;
+use serde::Deserialize;
 
 pub fn jobs_service() -> Scope {
     scope("/jobs")
         .service(find_jobs_route)
         .service(add_job_route)
+        .service(complete_jobs_route)
 }
 
 #[get("")]
@@ -28,4 +30,19 @@ pub async fn add_job_route(
 ) -> Result<HttpResponse, HttpError> {
     let job = add_job(&pool.get().await?, data.0).await?;
     Ok(HttpResponse::Ok().json(job))
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CompleteJobBody {
+    pub job_ids: Vec<i64>,
+}
+
+#[post("/complete")]
+pub async fn complete_jobs_route(
+    pool: Data<Pool>,
+    body: Json<CompleteJobBody>,
+) -> Result<HttpResponse, HttpError> {
+    let completed_jobs = complete_jobs(&pool.get().await?, body.job_ids.as_slice()).await?;
+    Ok(HttpResponse::Ok().json(completed_jobs))
 }
