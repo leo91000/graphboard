@@ -171,16 +171,19 @@ impl TryFrom<Row> for CompleteJobsResult {
     }
 }
 
-pub async fn complete_jobs(
+pub async fn complete_jobs<I: AsRef<[i64]>>(
     client: &Client,
-    job_ids: &[i64],
+    job_ids: I,
 ) -> Result<CompleteJobsResult, RepositoryError> {
     let query = format!(
         "select json_agg(cj)::text completed_jobs from {}.complete_jobs($1::bigint[]) cj",
         *GRAPHILE_WORKER_SCHEMA
     );
 
-    let results = client.query_one(&query, &[&job_ids]).await?.try_into()?;
+    let results = client
+        .query_one(&query, &[&job_ids.as_ref()])
+        .await?
+        .try_into()?;
     Ok(results)
 }
 

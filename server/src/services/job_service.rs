@@ -47,7 +47,7 @@ pub async fn complete_jobs_route(
     pool: Data<Pool>,
     body: Json<CompleteJobBody>,
 ) -> Result<HttpResponse, HttpError> {
-    let completed_jobs = complete_jobs(&pool.get().await?, body.job_ids.as_slice()).await?;
+    let completed_jobs = complete_jobs(&pool.get().await?, &body.job_ids).await?;
     Ok(HttpResponse::Ok().json(completed_jobs))
 }
 
