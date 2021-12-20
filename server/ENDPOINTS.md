@@ -4,11 +4,9 @@ POST /jobs
 POST /jobs/complete
 POST /jobs/permanently-fail
 POST /jobs/reschedule
+POST /jobs/remove
 
-DELETE /jobs/:id
-PUT /jobs/:id
-PATCH /jobs/:id
-
+https://github.com/graphile/worker#administration-functions
 GET /job-queues
 GET /known-crontabs
 

@@ -1,7 +1,8 @@
 use crate::errors::HttpError;
 use crate::models::AddJobData;
 use crate::repositories::{
-    add_job, complete_jobs, find_jobs, permanently_fail_jobs, reschedule_jobs, RescheduleJobsData,
+    add_job, complete_jobs, find_jobs, permanently_fail_jobs, remove_job, reschedule_jobs,
+    RescheduleJobsData,
 };
 use actix_web::web::{scope, Data, HttpRequest, Json};
 use actix_web::{get, post, HttpResponse, Scope};
@@ -15,6 +16,7 @@ pub fn jobs_service() -> Scope {
         .service(complete_jobs_route)
         .service(permanently_fail_jobs_route)
         .service(reschedule_jobs_route)
+        .service(remove_job_route)
 }
 
 #[get("")]
@@ -75,6 +77,22 @@ pub async fn reschedule_jobs_route(
     body: Json<RescheduleJobsData>,
 ) -> Result<HttpResponse, HttpError> {
     let result = reschedule_jobs(&pool.get().await?, body.0).await?;
+
+    Ok(HttpResponse::Ok().json(result))
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoveJobBody {
+    pub job_key: String,
+}
+
+#[post("/remove")]
+pub async fn remove_job_route(
+    pool: Data<Pool>,
+    body: Json<RemoveJobBody>,
+) -> Result<HttpResponse, HttpError> {
+    let result = remove_job(&pool.get().await?, &body.job_key).await?;
 
     Ok(HttpResponse::Ok().json(result))
 }

@@ -266,3 +266,40 @@ pub async fn reschedule_jobs(
 
     Ok(result)
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RemoveJobsResult {
+    pub removed_job: Option<Job>,
+}
+
+impl TryFrom<Row> for RemoveJobsResult {
+    type Error = RepositoryError;
+
+    fn try_from(row: Row) -> Result<Self, Self::Error> {
+        let raw_removed_job: Option<&str> = row.try_get("removed_job")?;
+        match raw_removed_job {
+            Some(data) => Ok(RemoveJobsResult {
+                removed_job: Some(serde_json::from_str(data)?),
+            }),
+            None => Ok(RemoveJobsResult { removed_job: None }),
+        }
+    }
+}
+
+pub async fn remove_job<K: AsRef<str>>(
+    client: &Client,
+    job_key: K,
+) -> Result<RemoveJobsResult, RepositoryError> {
+    let query = format!(
+        "select case when j is null then null else row_to_json(j)::text end removed_job from {}.remove_job($1::text) j",
+        *GRAPHILE_WORKER_SCHEMA
+    );
+
+    let result = client
+        .query_one(&query, &[&job_key.as_ref()])
+        .await?
+        .try_into()?;
+
+    Ok(result)
+}
