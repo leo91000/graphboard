@@ -3,6 +3,7 @@ use crate::models::{AddJobData, Job};
 use crate::repositories::{
     Order, Pagination, RepositoryError, RepositoryOrder, RepositoryPagination, ToSqlIdent,
 };
+use chrono::{DateTime, Utc};
 use deadpool_postgres::Client;
 use serde::{Deserialize, Serialize};
 use tokio_postgres::Row;
@@ -11,12 +12,14 @@ use tokio_postgres::Row;
 #[serde(rename_all = "camelCase")]
 pub enum JobOrderField {
     TaskIdentifier,
+    RunAt,
 }
 
 impl ToSqlIdent for JobOrderField {
     fn sql_ident(&self) -> String {
         match self {
             JobOrderField::TaskIdentifier => String::from("task_identifier"),
+            JobOrderField::RunAt => String::from("run_at"),
         }
     }
 }
@@ -197,17 +200,66 @@ impl TryFrom<Row> for PermanentlyFailJobsResult {
     }
 }
 
-pub async fn permanently_fail_jobs(
+pub async fn permanently_fail_jobs<I: AsRef<[i64]>, E: AsRef<str>>(
     client: &Client,
-    job_ids: &[i64],
-    error_messages: &str,
+    job_ids: I,
+    error_messages: E,
 ) -> Result<PermanentlyFailJobsResult, RepositoryError> {
     let query = format!("select json_agg(f)::text permanently_failed_jobs from {}.permanently_fail_jobs($1::bigint[], $2::text) f", *GRAPHILE_WORKER_SCHEMA);
 
     let jobs = client
-        .query_one(&query, &[&job_ids, &error_messages])
+        .query_one(&query, &[&job_ids.as_ref(), &error_messages.as_ref()])
         .await?
         .try_into()?;
 
     Ok(jobs)
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RescheduleJobsData {
+    pub job_ids: Vec<i64>,
+    pub run_at: Option<DateTime<Utc>>,
+    pub priority: Option<i32>,
+    pub attempts: Option<u32>,
+    pub max_attempts: Option<u32>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RescheduleJobsResult {
+    pub rescheduled_jobs: Vec<Job>,
+}
+
+impl TryFrom<Row> for RescheduleJobsResult {
+    type Error = RepositoryError;
+
+    fn try_from(row: Row) -> Result<Self, Self::Error> {
+        Ok(RescheduleJobsResult {
+            rescheduled_jobs: serde_json::from_str(row.try_get("rescheduled_jobs")?)?,
+        })
+    }
+}
+
+pub async fn reschedule_jobs(
+    client: &Client,
+    data: RescheduleJobsData,
+) -> Result<RescheduleJobsResult, RepositoryError> {
+    let query = format!("select json_agg(r)::text rescheduled_jobs from {}.reschedule_jobs($1::bigint[], $2::timestamptz, $3::integer, $4::integer, $5::integer) r", *GRAPHILE_WORKER_SCHEMA);
+
+    let result = client
+        .query_one(
+            &query,
+            &[
+                &data.job_ids,
+                &data.run_at,
+                &data.priority,
+                &data.attempts.map(|attempts| attempts as i32),
+                &data.max_attempts.map(|max_attempts| max_attempts as i32),
+            ],
+        )
+        .await?
+        .try_into()?;
+
+    Ok(result)
 }

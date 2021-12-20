@@ -1,6 +1,8 @@
 use crate::errors::HttpError;
 use crate::models::AddJobData;
-use crate::repositories::{add_job, complete_jobs, find_jobs, permanently_fail_jobs};
+use crate::repositories::{
+    add_job, complete_jobs, find_jobs, permanently_fail_jobs, reschedule_jobs, RescheduleJobsData,
+};
 use actix_web::web::{scope, Data, HttpRequest, Json};
 use actix_web::{get, post, HttpResponse, Scope};
 use deadpool_postgres::Pool;
@@ -12,6 +14,7 @@ pub fn jobs_service() -> Scope {
         .service(add_job_route)
         .service(complete_jobs_route)
         .service(permanently_fail_jobs_route)
+        .service(reschedule_jobs_route)
 }
 
 #[get("")]
@@ -60,11 +63,18 @@ pub async fn permanently_fail_jobs_route(
     pool: Data<Pool>,
     body: Json<PermanentlyFailJobsBody>,
 ) -> Result<HttpResponse, HttpError> {
-    let permanently_failed_jobs = permanently_fail_jobs(
-        &pool.get().await?,
-        body.job_ids.as_slice(),
-        body.error_messages.as_str(),
-    )
-    .await?;
+    let permanently_failed_jobs =
+        permanently_fail_jobs(&pool.get().await?, &body.job_ids, &body.error_messages).await?;
+
     Ok(HttpResponse::Ok().json(permanently_failed_jobs))
+}
+
+#[post("/reschedule")]
+pub async fn reschedule_jobs_route(
+    pool: Data<Pool>,
+    body: Json<RescheduleJobsData>,
+) -> Result<HttpResponse, HttpError> {
+    let result = reschedule_jobs(&pool.get().await?, body.0).await?;
+
+    Ok(HttpResponse::Ok().json(result))
 }
