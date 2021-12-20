@@ -1,6 +1,6 @@
 use crate::errors::HttpError;
 use crate::models::AddJobData;
-use crate::repositories::{add_job, complete_jobs, find_jobs};
+use crate::repositories::{add_job, complete_jobs, find_jobs, permanently_fail_jobs};
 use actix_web::web::{scope, Data, HttpRequest, Json};
 use actix_web::{get, post, HttpResponse, Scope};
 use deadpool_postgres::Pool;
@@ -11,6 +11,7 @@ pub fn jobs_service() -> Scope {
         .service(find_jobs_route)
         .service(add_job_route)
         .service(complete_jobs_route)
+        .service(permanently_fail_jobs_route)
 }
 
 #[get("")]
@@ -45,4 +46,25 @@ pub async fn complete_jobs_route(
 ) -> Result<HttpResponse, HttpError> {
     let completed_jobs = complete_jobs(&pool.get().await?, body.job_ids.as_slice()).await?;
     Ok(HttpResponse::Ok().json(completed_jobs))
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PermanentlyFailJobsBody {
+    pub job_ids: Vec<i64>,
+    pub error_messages: String,
+}
+
+#[post("/permanently-fail")]
+pub async fn permanently_fail_jobs_route(
+    pool: Data<Pool>,
+    body: Json<PermanentlyFailJobsBody>,
+) -> Result<HttpResponse, HttpError> {
+    let permanently_failed_jobs = permanently_fail_jobs(
+        &pool.get().await?,
+        body.job_ids.as_slice(),
+        body.error_messages.as_str(),
+    )
+    .await?;
+    Ok(HttpResponse::Ok().json(permanently_failed_jobs))
 }

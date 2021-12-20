@@ -180,3 +180,34 @@ pub async fn complete_jobs(
     let results = client.query_one(&query, &[&job_ids]).await?.try_into()?;
     Ok(results)
 }
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PermanentlyFailJobsResult {
+    permanently_failed_jobs: Vec<Job>,
+}
+
+impl TryFrom<Row> for PermanentlyFailJobsResult {
+    type Error = RepositoryError;
+
+    fn try_from(row: Row) -> Result<Self, Self::Error> {
+        Ok(PermanentlyFailJobsResult {
+            permanently_failed_jobs: serde_json::from_str(row.try_get("permanently_failed_jobs")?)?,
+        })
+    }
+}
+
+pub async fn permanently_fail_jobs(
+    client: &Client,
+    job_ids: &[i64],
+    error_messages: &str,
+) -> Result<PermanentlyFailJobsResult, RepositoryError> {
+    let query = format!("select json_agg(f)::text permanently_failed_jobs from {}.permanently_fail_jobs($1::bigint[], $2::text) f", *GRAPHILE_WORKER_SCHEMA);
+
+    let jobs = client
+        .query_one(&query, &[&job_ids, &error_messages])
+        .await?
+        .try_into()?;
+
+    Ok(jobs)
+}
