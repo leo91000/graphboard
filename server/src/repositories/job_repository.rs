@@ -34,12 +34,14 @@ impl Default for JobOrderField {
 #[serde(rename_all = "camelCase")]
 pub struct FindJobsFilters {
     task_identifier: Option<String>,
+    queue_name: Option<String>,
 }
 
 impl Default for FindJobsFilters {
     fn default() -> Self {
         FindJobsFilters {
             task_identifier: None,
+            queue_name: None,
         }
     }
 }
@@ -105,7 +107,9 @@ pub async fn find_jobs(
     params: FindJobsParams,
 ) -> Result<FindJobsResult, RepositoryError> {
     let query = format!(
-        "select j.* from {}.jobs j where j.task_identifier ilike concat('%', $1::text, '%')",
+        r#"select j.* from {}.jobs j
+        where j.task_identifier ilike concat('%', $1::text, '%') and
+              j.queue_name ilike concat('%', $2::text, '%')"#,
         *GRAPHILE_WORKER_SCHEMA
     );
 
@@ -117,14 +121,14 @@ pub async fn find_jobs(
         query = query,
     );
 
+    let filters = params.filters();
     let result = client
         .query_one(
             stmt.as_str(),
-            &[&params
-                .filters()
-                .task_identifier
-                .unwrap_or("".to_string())
-                .as_str()],
+            &[
+                &filters.task_identifier.unwrap_or("".to_string()),
+                &filters.queue_name.unwrap_or("".to_string()),
+            ],
         )
         .await?
         .try_into()?;
