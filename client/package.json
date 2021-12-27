@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production vite-ssg build",
-    "dev": "vite --port 3333 --open",
+    "dev": "vite --host",
     "lint": "eslint \"**/*.{vue,ts,js}\"",
     "test": "cypress open",
     "preview": "vite preview",
@@ -49,7 +49,7 @@
     "vite-plugin-pwa": "^0.11.11",
     "vite-plugin-vue-layouts": "^0.5.0",
     "vite-plugin-windicss": "^1.5.4",
-    "vite-ssg": "^0.17.0",
+    "vite-ssg": "^0.17.2",
     "vue-tsc": "^0.29.8"
   }
 }

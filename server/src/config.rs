@@ -6,7 +6,7 @@ use std::{env, lazy::SyncLazy};
 #[derive(Deserialize)]
 pub struct Config {
   pub port: String,
-  pub addr: String,
+  pub host: String,
   pub pg: deadpool_postgres::Config,
 }
 
@@ -16,7 +16,7 @@ impl Config {
     cfg
       .set_default("port", 3000)?
       .set_default("port", 80)?
-      .set_default("addr", "0.0.0.0")?
+      .set_default("host", "0.0.0.0")?
       .set_default("pg.pool.max_size", 16)?
       .merge(::config::Environment::new().separator("_"))?;
     cfg.try_into()
@@ -24,7 +24,7 @@ impl Config {
 
   pub fn server_addr(&self) -> String {
     let mut server_addr = String::new();
-    server_addr.push_str(self.addr.as_str());
+    server_addr.push_str(self.host.as_str());
     server_addr.push_str(":");
     server_addr.push_str(self.port.as_str());
     server_addr

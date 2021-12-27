@@ -26,7 +26,7 @@ impl From<RepositoryError> for HttpError {
   fn from(error: RepositoryError) -> Self {
     match error {
       RepositoryError::NotFound => HttpError::not_found("NTFND", None),
-      RepositoryError::PGError(ref err) => {
+      RepositoryError::PGError(_err) => {
         #[cfg(debug_assertions)]
         {
           let mut error_data = serde_json::Map::new();
@@ -39,7 +39,7 @@ impl From<RepositoryError> for HttpError {
         #[cfg(not(debug_assertions))]
         HttpError::internal_server_error("PGERR", None)
       }
-      RepositoryError::MappingError(err) => {
+      RepositoryError::MappingError(_err) => {
         #[cfg(debug_assertions)]
         {
           let mut error_data = serde_json::Map::new();

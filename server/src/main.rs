@@ -8,14 +8,9 @@ mod repositories;
 mod services;
 
 use crate::{config::Config, services::api_services};
-use actix_web::{get, middleware::Logger, web::Data, App, HttpResponse, HttpServer, Responder};
+use actix_web::{middleware::Logger, web::Data, App, HttpServer};
 use deadpool_postgres::Runtime::Tokio1;
 use tokio_postgres::NoTls;
-
-#[get("/ping")]
-async fn ping() -> impl Responder {
-  HttpResponse::Ok().body("Hello Graphboard API !")
-}
 
 #[actix_web::main]
 async fn main() {
@@ -27,7 +22,6 @@ async fn main() {
     App::new()
       .wrap(Logger::default())
       .app_data(Data::new(pool.clone()))
-      .service(ping)
       .service(api_services())
   };
 

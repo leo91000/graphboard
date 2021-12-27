@@ -146,6 +146,7 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    port: parseInt(process.env.PORT ?? '3333') || 3333,
   },
 
   // https://github.com/antfu/vite-ssg

@@ -2,7 +2,7 @@ ARG BUILD=production
 FROM rust:1.57.0-bullseye as base
 
 ENV PORT=80
-ENV ADDR=0.0.0.0
+ENV HOST=0.0.0.0
 
 WORKDIR /app
 
@@ -23,5 +23,8 @@ RUN cargo build
 FROM ${BUILD}-build as build
 
 EXPOSE ${PORT}
+
+HEALTHCHECK --interval=5s --timeout=3s --retries=3 \
+CMD curl -f http://${HOST}:${PORT}/api/ping || exit 1
 
 CMD ["cargo", "run"]
