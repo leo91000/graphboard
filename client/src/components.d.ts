@@ -9,6 +9,7 @@ declare module 'vue' {
     CarbonSun: typeof import('~icons/carbon/sun')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
+    JobsTable: typeof import('./components/JobsTable.vue')['default']
     README: typeof import('./components/README.md')['default']
   }
 }

@@ -4,7 +4,7 @@ use actix_web::HttpResponse;
 use deadpool_postgres::PoolError;
 use derive_more::{Display, From};
 use serde::Deserialize;
-use serde_json::Error as SerdeError;
+use serde_json::{json, Error as SerdeError};
 use tokio_postgres::error::Error as PGError;
 
 mod job_repository;
@@ -26,27 +26,25 @@ impl From<RepositoryError> for HttpError {
   fn from(error: RepositoryError) -> Self {
     match error {
       RepositoryError::NotFound => HttpError::not_found("NTFND", None),
-      RepositoryError::PGError(_err) => {
+      RepositoryError::PGError(ref error) => {
         #[cfg(debug_assertions)]
-        {
-          let mut error_data = serde_json::Map::new();
-          error_data.insert("raw".to_string(), serde_json::Value::from(err.to_string()));
-          return HttpError::internal_server_error(
-            "POGER",
-            Some(serde_json::Value::Object(error_data)),
-          );
-        }
+        return HttpError::internal_server_error(
+          "POGER",
+          Some(json!({
+            "raw": error.to_string()
+          })),
+        );
         #[cfg(not(debug_assertions))]
         HttpError::internal_server_error("PGERR", None)
       }
-      RepositoryError::MappingError(_err) => {
+      RepositoryError::MappingError(ref error) => {
         #[cfg(debug_assertions)]
         {
-          let mut error_data = serde_json::Map::new();
-          error_data.insert("raw".to_string(), serde_json::Value::from(err.to_string()));
           return HttpError::internal_server_error(
             "MAPER",
-            Some(serde_json::Value::Object(error_data)),
+            Some(json!({
+              "raw": error.to_string()
+            })),
           );
         }
         #[cfg(not(debug_assertions))]

@@ -4,6 +4,13 @@ const { t } = useI18n()
 
 <template>
   <div>
-    <div class="py-4" />
+    <suspense>
+      <template #default>
+        <JobsTable />
+      </template>
+      <template #fallback>
+        <h1>Loading...</h1>
+      </template>
+    </suspense>
   </div>
 </template>
