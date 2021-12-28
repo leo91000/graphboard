@@ -14,3 +14,23 @@ intro:
   aka: Also known as
   whats-your-name: What's your name?
 not-found: Not found
+jobs:
+  table:
+    name: 'Running jobs (total : {count})'
+    headers:
+      id: ID
+      queueName: Queue name
+      taskIdentifier: Task identifier
+      payload: Payload
+      priority: Priority
+      run_at: Run at
+      attempts: Attempts
+      maxAttempts: Max attempts
+      lastError: Last error
+      createdAt: Created At
+      updatedAt: Updated At
+      key: Job key
+      lockedAt: Locked At
+      lockedBy: Locked By
+      revision: Revision
+      flags: Flags

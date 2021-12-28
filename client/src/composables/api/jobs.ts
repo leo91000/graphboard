@@ -24,13 +24,13 @@ interface Job {
   priority: number
   run_at: string
   attempts: number
-  max_attempts: number
-  last_error: string | null
-  created_at: string
-  updated_at: string
+  maxAttempts: number
+  lastError: string | null
+  createdAt: string
+  updatedAt: string
   key: string | null
-  locked_at: string | null
-  locked_by: string | null
+  lockedAt: string | null
+  lockedBy: string | null
   revision: number
   flags: unknown
 }

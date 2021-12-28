@@ -12,3 +12,23 @@ intro:
   aka: Aussi connu sous le nom de
   whats-your-name: Comment t'appelles-tu ?
 not-found: Page non trouvée
+jobs:
+  table:
+    name: 'Tâches en cours (totale : {count})'
+    headers:
+      id: ID
+      queueName: Fil d'attente
+      taskIdentifier: ID de la tâche
+      payload: Données
+      priority: Priorité
+      run_at: Prochaine execution à
+      attempts: Nombre d'essais
+      maxAttempts: Nombre max d'essais
+      lastError: Dernière erreur
+      createdAt: Créé à
+      updatedAt: Mis à jour à
+      key: Clé du job
+      lockedAt: Verrouiller à
+      lockedBy: Verrouiller par
+      revision: Révision
+      flags: Flags
