@@ -1,48 +1,7 @@
 import type { AxiosInstance } from 'axios'
 import type { MaybeRef } from '@vueuse/core'
-import { getApiClient } from '~/composables'
-
-interface GetJobParams {
-  pagination?: {
-    itemsPerPage?: number
-    page?: number
-  }
-  order?: {
-    field?: 'taskIdentifier'
-    direction?: 'asc' | 'desc'
-  }
-  filters?: {
-    taskIdentifier?: string
-  }
-}
-
-interface Job {
-  id: number
-  queueName: string | null
-  taskIdentifier: string
-  payload: unknown
-  priority: number
-  run_at: string
-  attempts: number
-  maxAttempts: number
-  lastError: string | null
-  createdAt: string
-  updatedAt: string
-  key: string | null
-  lockedAt: string | null
-  lockedBy: string | null
-  revision: number
-  flags: unknown
-}
-
-type GetJobResponse = { jobs: Job[]; count: number }
-
-export async function getJobs({ client = getApiClient(), params }: { client?: AxiosInstance; params: MaybeRef<GetJobParams> }): Promise<GetJobResponse> {
-  const { data } = await client.get('/jobs', {
-    params: unref(params),
-  })
-  return data
-}
+import type { GetJobParams, Job } from '~/api/jobs'
+import { getJobs } from '~/api/jobs'
 
 export async function useJobs({ client, params: rawParams = {} }: { client?: AxiosInstance; params?: MaybeRef<GetJobParams> } = {}) {
   const loading = ref(false)
@@ -90,5 +49,5 @@ export async function useJobs({ client, params: rawParams = {} }: { client?: Axi
     }
   }
 
-  return { jobs, count, fetchJobs, params, next, previous }
+  return { jobs, count, fetchJobs, params, next, previous, hasNextPage, hasPreviousPage }
 }

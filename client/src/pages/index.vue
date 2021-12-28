@@ -4,6 +4,7 @@ const { t } = useI18n()
 
 <template>
   <div>
+    <AddJobButton />
     <suspense>
       <template #default>
         <JobsTable />

@@ -14,7 +14,13 @@ intro:
   aka: Also known as
   whats-your-name: What's your name?
 not-found: Not found
+
 jobs:
+  forms:
+    add:
+      taskIdentifier: Task identifier
+  add:
+    button: Add job
   table:
     name: 'Running jobs (total : {count})'
     headers:

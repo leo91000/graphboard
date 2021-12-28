@@ -4,12 +4,17 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddJobButton: typeof import('./components/AddJobButton.vue')['default']
+    AddJobForm: typeof import('./components/AddJobForm.vue')['default']
+    CarbonAdd: typeof import('~icons/carbon/add')['default']
     CarbonLanguage: typeof import('~icons/carbon/language')['default']
     CarbonMoon: typeof import('~icons/carbon/moon')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
+    CarbonWarningAlt: typeof import('~icons/carbon/warning-alt')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     JobsTable: typeof import('./components/JobsTable.vue')['default']
+    Modal: typeof import('./components/Modal.vue')['default']
     README: typeof import('./components/README.md')['default']
   }
 }

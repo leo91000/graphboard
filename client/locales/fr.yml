@@ -13,6 +13,11 @@ intro:
   whats-your-name: Comment t'appelles-tu ?
 not-found: Page non trouvée
 jobs:
+  forms:
+    add:
+      taskIdentifier: ID de la tâche
+  add:
+    button: Ajouter une tâche
   table:
     name: 'Tâches en cours (totale : {count})'
     headers:
