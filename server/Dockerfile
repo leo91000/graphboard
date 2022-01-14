@@ -1,5 +1,5 @@
 ARG BUILD=production
-FROM rust:1.57.0-bullseye as base
+FROM rust:1.58.0-bullseye as base
 
 ENV PORT=80
 ENV HOST=0.0.0.0

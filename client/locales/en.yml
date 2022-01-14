@@ -14,7 +14,7 @@ intro:
   aka: Also known as
   whats-your-name: What's your name?
 not-found: Not found
-
+datetime-format: 'dd/MM/yyyy HH:mm:ss'
 jobs:
   forms:
     add:
@@ -28,6 +28,8 @@ jobs:
       priority: Priority
       flags: Flags
       jobKeyMode: Job key mode
+      cancel: Cancel
+      save: Save
   add:
     button: Add job
   table:
@@ -38,7 +40,7 @@ jobs:
       taskIdentifier: Task identifier
       payload: Payload
       priority: Priority
-      run_at: Run at
+      runAt: Run at
       attempts: Attempts
       maxAttempts: Max attempts
       lastError: Last error

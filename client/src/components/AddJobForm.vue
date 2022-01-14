@@ -53,8 +53,8 @@ const { t } = useI18n()
 <template>
   <form name="add-job" @submit.prevent="submit">
     <div class="space-y-4 sm:space-y-3">
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="task-identifier" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="task-identifier" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.taskIdentifier') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -64,13 +64,13 @@ const { t } = useI18n()
             type="text"
             name="first-name"
             autocomplete="on"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="payload" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="payload" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.payload') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -80,13 +80,13 @@ const { t } = useI18n()
             type="text"
             name="payload"
             autocomplete="off"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="queue-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="queue-name" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.queueName') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -96,14 +96,14 @@ const { t } = useI18n()
             name="queue-name"
             type="text"
             autocomplete="on"
-            class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="run-at" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-0 leading-tight">
-          {{ t('jobs.forms.add.runAt') }}<br><span class="text-xs font-light text-gray-500">({{ t('timezones.name') }} : {{ preferredTimezone }})</span>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="run-at" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-0 leading-tight">
+          {{ t('jobs.forms.add.runAt') }}<br><span class="text-xs font-light text-gray-500 dark:text-gray-300">({{ t('timezones.name') }} : {{ preferredTimezone }})</span>
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <input
@@ -112,13 +112,13 @@ const { t } = useI18n()
             name="queue-name"
             type="datetime-local"
             autocomplete="off"
-            class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="max-attempts" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="max-attempts" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.maxAttempts') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -128,13 +128,13 @@ const { t } = useI18n()
             type="number"
             name="max-attempts"
             autocomplete="on"
-            class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="job-key" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="job-key" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.jobKey') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -144,13 +144,13 @@ const { t } = useI18n()
             type="text"
             name="job-key"
             autocomplete="on"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="priority" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.priority') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -160,13 +160,13 @@ const { t } = useI18n()
             type="number"
             name="priority"
             autocomplete="on"
-            class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="flags" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="flags" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.flags') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -176,13 +176,13 @@ const { t } = useI18n()
             type="text"
             name="flags"
             autocomplete="postal-code"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
 
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-3">
-        <label for="job-key-mode" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:dark:border-gray-700 sm:pt-3">
+        <label for="job-key-mode" class="block text-sm font-medium text-gray-700 dark:text-gray-200 sm:mt-px sm:pt-2">
           {{ t('jobs.forms.add.jobKeyMode') }}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -192,7 +192,7 @@ const { t } = useI18n()
             type="text"
             name="job-key-mode"
             autocomplete="postal-code"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            class="dark:bg-dark-200 dark:text-white max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 dark:border-gray-500 rounded-md"
           >
         </div>
       </div>
@@ -201,10 +201,10 @@ const { t } = useI18n()
     <div class="pt-5">
       <div class="flex justify-end">
         <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="$emit('cancel')">
-          Cancel
+          {{ t('jobs.forms.add.cancel') }}
         </button>
         <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Save
+          {{ t('jobs.forms.add.save') }}
         </button>
       </div>
     </div>

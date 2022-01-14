@@ -3,8 +3,11 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div>
-    <AddJobButton />
+  <div class="w-full px-5">
+    <div class="w-full my-4 flex flex-row content-center justify-between items-center">
+      <div>Pouet</div>
+      <AddJobButton />
+    </div>
     <suspense>
       <template #default>
         <JobsTable />

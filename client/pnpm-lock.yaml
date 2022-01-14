@@ -18,6 +18,8 @@ specifiers:
   critters: ^0.0.15
   cross-env: ^7.0.3
   cypress: ^9.1.1
+  date-fns: ^2.28.0
+  date-fns-tz: ^1.2.2
   eslint: ^8.4.1
   eslint-plugin-cypress: ^2.12.1
   flag-icons: ^6.0.2
@@ -52,6 +54,8 @@ dependencies:
   '@vueuse/core': 7.5.1_vue@3.2.26
   '@vueuse/head': 0.7.4_vue@3.2.26
   axios: 0.24.0
+  date-fns: 2.28.0
+  date-fns-tz: 1.2.2_date-fns@2.28.0
   flag-icons: 6.0.2
   lodash: 4.17.21
   nprogress: 0.2.0
@@ -1466,8 +1470,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/message-compiler': 9.2.0-beta.28
+      '@intlify/shared': 9.2.0-beta.28
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: 9.1.9_vue@3.2.26
@@ -1502,11 +1506,11 @@ packages:
       source-map: 0.6.1
     dev: false
 
-  /@intlify/message-compiler/9.2.0-beta.26:
-    resolution: {integrity: sha512-qtDgHCMqrXNTekKXGzm0Dm6r3+/X7/jFXP+E07hx+PJbPMv7DzK1iU8h5LlAMQ1/jr2UIRBgXvR5wh35OKoGrA==}
+  /@intlify/message-compiler/9.2.0-beta.28:
+    resolution: {integrity: sha512-NBH9fZyitN2cijGt8bmU1W7ZPdhKbgW01L1RxJKFJW0cRaCmknJq63Aif1Q6xcxKt9ZhPbvIKHgPGzg1nWMfeA==}
     engines: {node: '>= 12'}
     dependencies:
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/shared': 9.2.0-beta.28
       source-map: 0.6.1
     dev: true
 
@@ -1529,8 +1533,8 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
-  /@intlify/shared/9.2.0-beta.26:
-    resolution: {integrity: sha512-MjUlkjNThqkqy8yXUcFKBiW/hIfqAn5cP3Vd0b4wdOHS8rPCEbvSbAnF08uiZDkVv8gTcsLyymX21GaU6oYyyQ==}
+  /@intlify/shared/9.2.0-beta.28:
+    resolution: {integrity: sha512-JBMcoj1D4kSAma7Vb0+d8z6lPLIn7hIdZJPxbU8bgeMMniwKLoIS/jGlEfrZihsB5+otckPeQp203z8skwVS0w==}
     engines: {node: '>= 12'}
     dev: true
 
@@ -1548,7 +1552,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 2.2.0_vue-i18n@9.1.9
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/shared': 9.2.0-beta.28
       '@rollup/pluginutils': 4.1.2
       debug: 4.3.3
       fast-glob: 3.2.7
@@ -2911,6 +2915,19 @@ packages:
       whatwg-mimetype: 3.0.0
       whatwg-url: 10.0.0
     dev: true
+
+  /date-fns-tz/1.2.2_date-fns@2.28.0:
+    resolution: {integrity: sha512-vWtn44eEqnLbkACb7T5G5gPgKR4nY8NkNMOCyoY49NsRGHrcDmY2aysCyzDeA+u+vcDBn/w6nQqEDyouRs4m8w==}
+    peerDependencies:
+      date-fns: '>=2.0.0'
+    dependencies:
+      date-fns: 2.28.0
+    dev: false
+
+  /date-fns/2.28.0:
+    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /dayjs/1.10.7:
     resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}

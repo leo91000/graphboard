@@ -1,9 +1,9 @@
 use crate::{
-  config::GRAPHILE_WORKER_SCHEMA,
   models::{AddJobData, Job},
   repositories::{
     Order, Pagination, RepositoryError, RepositoryOrder, RepositoryPagination, ToSqlIdent,
   },
+  CONFIG,
 };
 use chrono::{DateTime, Utc};
 use deadpool_postgres::Client;
@@ -112,7 +112,7 @@ pub async fn find_jobs(
     r#"select j.* from {}.jobs j
         where ($1::text is null or $1::text = '' or j.task_identifier ilike concat('%', $1::text, '%')) and
               ($2::text is null or $2::text = '' or j.queue_name ilike concat('%', $2::text, '%'))"#,
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let stmt = format!(
@@ -139,7 +139,7 @@ pub async fn add_job(client: &Client, data: AddJobData) -> Result<Job, Repositor
   let query = format!(
     "select j.* from {}.add_job($1::text, $2::json, $3::text, $4::timestamptz, $5::integer, \
      $6::text, $7::integer, $8::text[], $9::text) j",
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let job = client
@@ -185,7 +185,7 @@ pub async fn complete_jobs<I: AsRef<[i64]>>(
 ) -> Result<CompleteJobsResult, RepositoryError> {
   let query = format!(
     "select json_agg(cj)::text completed_jobs from {}.complete_jobs($1::bigint[]) cj",
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let results = client
@@ -219,7 +219,7 @@ pub async fn permanently_fail_jobs<I: AsRef<[i64]>, E: AsRef<str>>(
   let query = format!(
     "select json_agg(f)::text permanently_failed_jobs from {}.permanently_fail_jobs($1::bigint[], \
      $2::text) f",
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let jobs = client
@@ -263,7 +263,7 @@ pub async fn reschedule_jobs(
   let query = format!(
     "select json_agg(r)::text rescheduled_jobs from {}.reschedule_jobs($1::bigint[], \
      $2::timestamptz, $3::integer, $4::integer, $5::integer) r",
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let result = client
@@ -310,7 +310,7 @@ pub async fn remove_job<K: AsRef<str>>(
   let query = format!(
     "select case when j is null then null else row_to_json(j)::text end removed_job from \
      {}.remove_job($1::text) j",
-    *GRAPHILE_WORKER_SCHEMA
+    (*CONFIG).graphile_worker_schema
   );
 
   let result = client

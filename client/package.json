@@ -22,7 +22,9 @@
     "vue": "^3.2.26",
     "vue-demi": "^0.12.1",
     "vue-i18n": "^9.1.9",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "date-fns": "^2.28.0",
+    "date-fns-tz": "^1.2.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.13.1",

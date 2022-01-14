@@ -40,9 +40,13 @@ const open = computed({
           leave-from="opacity-100 translate-y-0 sm:scale-100"
           leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
-          <div class="px-5 pb-5 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <DialogTitle><slot name="title" /></DialogTitle>
-            <DialogDescription><slot name="description" /></DialogDescription>
+          <div class="px-5 pb-5 inline-block align-bottom bg-white dark:bg-dark-600 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <DialogTitle class="dark:text-white">
+              <slot name="title" />
+            </DialogTitle>
+            <DialogDescription class="dark:text-white">
+              <slot name="description" />
+            </DialogDescription>
             <slot />
           </div>
         </TransitionChild>
