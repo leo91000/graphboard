@@ -15,7 +15,16 @@ not-found: Page non trouvée
 jobs:
   forms:
     add:
+      title: Executer un nouveau job
       taskIdentifier: ID de la tâche
+      payload: Payload
+      queueName: Fil d'attente
+      runAt: Executer à
+      maxAttempts: Nb max d'essais
+      jobKey: Clé du job
+      priority: Priorité
+      flags: Tags
+      jobKeyMode: Mode de duplicat
   add:
     button: Ajouter une tâche
   table:
@@ -37,3 +46,46 @@ jobs:
       lockedBy: Verrouiller par
       revision: Révision
       flags: Flags
+timezones:
+  name: Fuseau horaire
+  '-12:00': '(GMT -12h00) Eniwetok, Kwajalein'
+  '-11:00': '(GMT -11h00) Île Midway, Samoa'
+  '-10:00': '(GMT -10h00) Hawaï'
+  '-09:50': '(GMT -9h30) Taiohae'
+  '-09:00': '(GMT -9h00) Alaska'
+  '-08:00': '(GMT -8h00) Heure du Pacifique (États-Unis et Canada)'
+  '-07:00': '(GMT -7h00) Heure des Rocheuses (États-Unis et Canada)'
+  '-06:00': '(GMT -6h00) Heure du Centre (États-Unis et Canada), Mexico'
+  '-05:00': "(GMT -5h00) Heure de l'Est (États-Unis et Canada), Bogota, Lima"
+  '-04:50': '(GMT -4h30) Caracas'
+  '-04:00': "(GMT -4h00) Heure de l'Atlantique (Canada), Caracas, La Paz"
+  '-03:50': '(GMT -3h30) Terre-Neuve'
+  '-03:00': '(GMT -3h00) Brésil, Buenos Aires, Georgetown'
+  '-02:00': "(GMT -2h00) Milieu de l'Atlantique"
+  '-01:00': '(GMT -1h00) Açores, Îles du Cap-Vert'
+  '+00:00': "(GMT) Heure d'Europe de l'Ouest, Londres, Lisbonne, Casablanca"
+  '+01:00': '(GMT +1h00) Bruxelles, Copenhague, Madrid, Paris'
+  '+02:00': '(GMT +2h00) Kaliningrad, Afrique du Sud'
+  '+03:00': '(GMT +3h00) Bagdad, Riyad, Moscou, Saint-Pétersbourg'
+  '+03:50': '(GMT +3h30) Téhéran'
+  '+04:00': '(GMT +4h00) Abu Dhabi, Mascate, Bakou, Tbilissi'
+  '+04:50': '(GMT +4h30) Kaboul'
+  '+05:00': '(GMT +5h00) Ekaterinbourg, Islamabad, Karachi, Tachkent'
+  '+05:50': '(GMT +5h30) Bombay, Calcutta, Madras, New Delhi'
+  '+05:75': '(GMT +5h45) Katmandou, Pokhara'
+  '+06:00': '(GMT +6h00) Almaty, Dacca, Colombo'
+  '+06:50': '(GMT +6h30) Yangon, Mandalay'
+  '+07:00': '(GMT +7h00) Bangkok, Hanoï, Jakarta'
+  '+08:00': '(GMT +8h00) Pékin, Perth, Singapour, Hong Kong'
+  '+08:75': '(GMT +8h45) Eucla'
+  '+09:00': '(GMT +9h00) Tokyo, Séoul, Osaka, Sapporo, Iakoutsk'
+  '+09:50': '(GMT +9h30) Adélaïde, Darwin'
+  '+10:00': '(GMT +10h00) Australie orientale, Guam, Vladivostok'
+  '+10:50': '(GMT +10h30) Île Lord Howe'
+  '+11:00': '(GMT +11h00) Magadan, Îles Salomon, Nouvelle-Calédonie'
+  '+11:50': '(GMT +11h30) Île Norfolk'
+  '+12:00': '(GMT +12h00) Auckland, Wellington, Fidji, Kamchatka'
+  '+12:75': '(GMT +12h45) Îles Chatham'
+  '+13:00': '(GMT +13h00) Apia, Nukualofa'
+  '+14:00': '(GMT +14h00) Îles de la Ligne, Tokélao'
+

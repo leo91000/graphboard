@@ -110,8 +110,8 @@ pub async fn find_jobs(
 ) -> Result<FindJobsResult, RepositoryError> {
   let query = format!(
     r#"select j.* from {}.jobs j
-        where j.task_identifier ilike concat('%', $1::text, '%') and
-              j.queue_name ilike concat('%', $2::text, '%')"#,
+        where ($1::text is null or $1::text = '' or j.task_identifier ilike concat('%', $1::text, '%')) and
+              ($2::text is null or $2::text = '' or j.queue_name ilike concat('%', $2::text, '%'))"#,
     *GRAPHILE_WORKER_SCHEMA
   );
 
@@ -128,10 +128,7 @@ pub async fn find_jobs(
   let result = client
     .query_one(
       stmt.as_str(),
-      &[
-        &filters.task_identifier.unwrap_or("".to_string()),
-        &filters.queue_name.unwrap_or("".to_string()),
-      ],
+      &[&filters.task_identifier, &filters.queue_name],
     )
     .await?
     .try_into()?;

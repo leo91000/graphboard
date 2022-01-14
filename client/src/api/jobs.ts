@@ -52,9 +52,9 @@ export interface AddJobData {
   payload?: unknown
   queueName?: string | null
   runAt?: Date | null
-  maxAttempts?: string | null
+  maxAttempts?: number | null
   jobKey?: string | null
-  priority?: string | null
+  priority?: number | null
   flags?: string | null
   jobKeyMode?: string | null
 }

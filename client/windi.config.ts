@@ -1,6 +1,9 @@
 import { defineConfig } from 'windicss/helpers'
 import colors from 'windicss/colors'
 import typography from 'windicss/plugin/typography'
+import forms from 'windicss/plugin/forms'
+// @ts-ignore
+import scrollbar from '@windicss/plugin-scrollbar'
 
 export default defineConfig({
   darkMode: 'class',
@@ -9,6 +12,8 @@ export default defineConfig({
 
   plugins: [
     typography(),
+    forms,
+    scrollbar,
   ],
   theme: {
     extend: {
