@@ -22,7 +22,7 @@ services:
       PG_DBNAME: graphboard
       PG_POOL_MAX_SIZE: 16
       RUST_BACKTRACE: 1
-      RUST_LOG: info
+      RUST_LOG: debug
     volumes:
       - ./server/src:/app/src
       - ./server/Cargo.toml:/app/Cargo.toml

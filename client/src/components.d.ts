@@ -8,7 +8,6 @@ declare module 'vue' {
     AddJobForm: typeof import('./components/AddJobForm.vue')['default']
     CarbonAdd: typeof import('~icons/carbon/add')['default']
     CarbonMoon: typeof import('~icons/carbon/moon')['default']
-    CarbonNotAvailable: typeof import('~icons/carbon/not-available')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
     CarbonTime: typeof import('~icons/carbon/time')['default']
     Clock: typeof import('./components/Clock.vue')['default']

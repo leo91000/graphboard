@@ -9,6 +9,7 @@ use chrono::{DateTime, Utc};
 use deadpool_postgres::Client;
 use serde::{Deserialize, Serialize};
 use tokio_postgres::Row;
+use tracing::error;
 
 #[derive(Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -83,24 +84,33 @@ impl TryFrom<Row> for Job {
   type Error = RepositoryError;
 
   fn try_from(row: Row) -> Result<Self, Self::Error> {
-    Ok(Job {
-      id: row.try_get("id")?,
-      queue_name: row.try_get("queue_name")?,
-      task_identifier: row.try_get("task_identifier")?,
-      payload: row.try_get("payload")?,
-      priority: row.try_get("priority")?,
-      run_at: row.try_get("run_at")?,
-      attempts: row.try_get("attempts")?,
-      max_attempts: row.try_get("max_attempts")?,
-      last_error: row.try_get("last_error")?,
-      created_at: row.try_get("created_at")?,
-      updated_at: row.try_get("updated_at")?,
-      key: row.try_get("key")?,
-      locked_at: row.try_get("locked_at")?,
-      locked_by: row.try_get("locked_by")?,
-      revision: row.try_get("revision")?,
-      flags: row.try_get("flags")?,
-    })
+    let job_result = {
+      Ok(Job {
+        id: row.try_get("id")?,
+        queue_name: row.try_get("queue_name")?,
+        task_identifier: row.try_get("task_identifier")?,
+        payload: row.try_get("payload")?,
+        priority: row.try_get("priority")?,
+        run_at: row.try_get("run_at")?,
+        attempts: row.try_get("attempts")?,
+        max_attempts: row.try_get("max_attempts")?,
+        last_error: row.try_get("last_error")?,
+        created_at: row.try_get("created_at")?,
+        updated_at: row.try_get("updated_at")?,
+        key: row.try_get("key")?,
+        locked_at: row.try_get("locked_at")?,
+        locked_by: row.try_get("locked_by")?,
+        revision: row.try_get("revision")?,
+        flags: row.try_get("flags")?,
+      })
+    };
+    if let Err(error) = &job_result {
+      error!(
+        error = format!("{:?}", error).as_str(),
+        "Error while deserializing row to Job"
+      );
+    }
+    job_result
   }
 }
 
