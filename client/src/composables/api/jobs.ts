@@ -28,26 +28,38 @@ export async function useJobs({ client, params: rawParams = {} }: { client?: Axi
 
   await fetchJobs()
 
-  const hasPreviousPage = computed(() => (params.value.pagination?.page ?? 1) > 1)
-  const hasNextPage = computed(() => (params.value.pagination?.itemsPerPage ?? 20) <= jobs.value.length)
-
-  function next() {
-    if (hasNextPage.value) {
+  const page = computed({
+    get: () => params.value.pagination?.page ?? 1,
+    set: (page) => {
       params.value.pagination = {
         ...params.value.pagination,
-        page: (params.value.pagination?.page ?? 1) + 1,
+        page,
       }
-    }
+    },
+  })
+
+  const itemsPerPage = computed({
+    get: () => params.value.pagination?.itemsPerPage ?? 20,
+    set: (itemsPerPage) => {
+      params.value.pagination = {
+        ...params.value.pagination,
+        itemsPerPage,
+      }
+    },
+  })
+
+  const hasPreviousPage = computed(() => page.value > 1)
+  const hasNextPage = computed(() => Math.floor(count.value / itemsPerPage.value) + 1 > page.value)
+
+  function next() {
+    if (hasNextPage.value)
+      page.value++
   }
 
   function previous() {
-    if (hasPreviousPage.value) {
-      params.value.pagination = {
-        ...params.value.pagination,
-        page: (params.value.pagination?.page ?? 1) - 1,
-      }
-    }
+    if (hasPreviousPage.value)
+      page.value--
   }
 
-  return { jobs, count, fetchJobs, params, next, previous, hasNextPage, hasPreviousPage }
+  return { jobs, count, fetchJobs, params, page, itemsPerPage, next, previous, hasNextPage, hasPreviousPage }
 }

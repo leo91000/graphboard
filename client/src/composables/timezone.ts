@@ -64,8 +64,9 @@ function getCurrentTimezone(): Timezone {
   return '+00:00'
 }
 
-const preferredTimezone = useLocalStorage<Timezone>('preferred-timezone', getCurrentTimezone())
+const getPreferredTimezoneRef = once(() => useLocalStorage<Timezone>('preferred-timezone', getCurrentTimezone()))
 
 export function usePreferredTimezone() {
+  const preferredTimezone = getPreferredTimezoneRef()
   return { preferredTimezone, getSupportedTimezones, isTimezoneSupported, getCurrentTimezone }
 }
