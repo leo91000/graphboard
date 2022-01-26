@@ -8,13 +8,6 @@ const { t } = useI18n()
       <div>Pouet</div>
       <AddJobButton />
     </div>
-    <suspense>
-      <template #default>
-        <JobsTable />
-      </template>
-      <template #fallback>
-        <h1>Loading...</h1>
-      </template>
-    </suspense>
+    <JobsTable />
   </div>
 </template>

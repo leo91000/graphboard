@@ -7,6 +7,8 @@ declare module 'vue' {
     AddJobButton: typeof import('./components/AddJobButton.vue')['default']
     AddJobForm: typeof import('./components/AddJobForm.vue')['default']
     CarbonAdd: typeof import('~icons/carbon/add')['default']
+    CarbonChevronLeft: typeof import('~icons/carbon/chevron-left')['default']
+    CarbonChevronRight: typeof import('~icons/carbon/chevron-right')['default']
     CarbonMoon: typeof import('~icons/carbon/moon')['default']
     CarbonSun: typeof import('~icons/carbon/sun')['default']
     CarbonTime: typeof import('~icons/carbon/time')['default']
@@ -14,9 +16,11 @@ declare module 'vue' {
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     JobsTable: typeof import('./components/JobsTable.vue')['default']
+    JobsTableParameters: typeof import('./components/JobsTableParameters.vue')['default']
     LocaleDropdown: typeof import('./components/LocaleDropdown.vue')['default']
     Modal: typeof import('./components/Modal.vue')['default']
     README: typeof import('./components/README.md')['default']
+    TablePagination: typeof import('./components/TablePagination.vue')['default']
     TimezoneDropdown: typeof import('./components/TimezoneDropdown.vue')['default']
   }
 }

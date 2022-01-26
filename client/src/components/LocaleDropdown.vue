@@ -5,12 +5,19 @@ import GBFlag from 'flag-icons/flags/4x3/gb.svg?raw'
 
 type Locale = 'en' | 'fr'
 
-const { locale } = useI18n()
+const { locale: i18nLocale } = useI18n()
 
 const localeDropdown: Record<Locale, String | string> = {
   en: GBFlag,
   fr: FRFlag,
 }
+
+const preferredLanguage = usePreferredLanguages()
+const preferredLanguageKey = computed(() => preferredLanguage.value.map(v => v.substring(0, 2)).find(k => k in localeDropdown))
+
+const locale = useLocalStorage('preferred-language', preferredLanguageKey.value ?? i18nLocale.value)
+
+watch(locale, (v) => { i18nLocale.value = v })
 </script>
 
 <template>

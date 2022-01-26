@@ -3,7 +3,7 @@ import type { MaybeRef } from '@vueuse/core'
 import type { GetJobParams, Job } from '~/api/jobs'
 import { getJobs } from '~/api/jobs'
 
-export async function useJobs({ client, params: rawParams = {} }: { client?: AxiosInstance; params?: MaybeRef<GetJobParams> } = {}) {
+export function useJobs({ client, params: rawParams = {} }: { client?: AxiosInstance; params?: MaybeRef<GetJobParams> } = {}) {
   const loading = ref(false)
   const jobs = ref<Job[]>([])
   const count = ref(0)
@@ -24,9 +24,8 @@ export async function useJobs({ client, params: rawParams = {} }: { client?: Axi
 
   watch(params, async() => fetchJobs(), {
     deep: true,
+    immediate: true,
   })
-
-  await fetchJobs()
 
   const page = computed({
     get: () => params.value.pagination?.page ?? 1,
@@ -61,5 +60,5 @@ export async function useJobs({ client, params: rawParams = {} }: { client?: Axi
       page.value--
   }
 
-  return { jobs, count, fetchJobs, params, page, itemsPerPage, next, previous, hasNextPage, hasPreviousPage }
+  return { jobs, count, fetchJobs, params, page, itemsPerPage, next, previous, hasNextPage, hasPreviousPage, loading }
 }
